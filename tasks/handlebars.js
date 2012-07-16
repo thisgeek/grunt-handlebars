@@ -8,19 +8,19 @@
 
 module.exports = function(grunt) {
 
-  var exec = require('child_process').exec;
+  var precomp = require('../lib/precompiler');
 
   grunt.registerMultiTask('handlebars', 'Precompile Handlebars template', function() {
-    var self = this;
-    var done = self.async();
-    var templateDir = this.file.src;
-    var truncateFileCmd = '> ' +this.file.dest;
-    var handlebarsCmd = __dirname + '/../node_modules/.bin/handlebars -m ' + templateDir + '/*.hbs ' + templateDir + '/*.handlebars -f ' + this.file.dest;
-    exec(truncateFileCmd +' && '+ handlebarsCmd, function(err, stdout, stderr) {
-      if (err) {
-        grunt.fail.fatal(stderr);
-      }
-      done();
-    });
+    var self = this,
+        done = self.async(),
+        templateDir = this.file.src,
+        config = {
+          "_": [
+            templateDir
+          ],
+          min: true,
+          output: this.file.dest
+        };
+    precomp(config);
   });
 };
