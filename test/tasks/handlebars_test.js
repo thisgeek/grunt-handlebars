@@ -4,7 +4,7 @@ var assert = require('assert'),
     fs = require('fs');
 
 describe('Handlebars', function() {
-  var existsSync = fs.existsSync || path.existsSync
+  var existsSync = fs.existsSync || path.existsSync;
   beforeEach(function(done) {
     if (!existsSync("test/fixtures/output")) {
       fs.mkdirSync("test/fixtures/output");
@@ -38,6 +38,22 @@ describe('Handlebars', function() {
         assert.ok(window.Handlebars.templates.nav);
         assert.equal(window.Handlebars.templates.header({title: 'My Title'}), '<h1>My Title</h1>\n');
         assert.equal(window.Handlebars.templates.nav({items: ['Home', 'Auto']}), '<ul>\n \n  <li>Home</li>\n  \n  <li>Auto</li>\n  \n</ul>\n');
+        done();
+      }
+    });
+  });
+
+  it('should handle hbs file extensions', function(done) {
+    var jsdom = require('jsdom');
+    var handlebarsJS = fs.readFileSync('./test/fixtures/handlebars.runtime.js').toString();
+    var templatesJS = fs.readFileSync('./test/fixtures/output/templates.js').toString();
+    jsdom.env({
+      html: 'http://news.ycombinator.com',
+      src: [handlebarsJS, templatesJS],
+      done: function(err, window) {
+        assert.ifError(err);
+        assert.ok(window.Handlebars.templates['footer.hbs']);
+        assert.equal(window.Handlebars.templates['footer.hbs']({copyright: '(c) 2012'}), '<footer>(c) 2012</footer>\n');
         done();
       }
     });
