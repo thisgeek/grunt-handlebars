@@ -52,8 +52,8 @@ describe('Handlebars', function() {
       src: [handlebarsJS, templatesJS],
       done: function(err, window) {
         assert.ifError(err);
-        assert.ok(window.Handlebars.templates['footer.hbs']);
-        assert.equal(window.Handlebars.templates['footer.hbs']({copyright: '(c) 2012'}), '<footer>(c) 2012</footer>\n');
+        assert.ok(window.Handlebars.templates['footer']);
+        assert.equal(window.Handlebars.templates['footer']({copyright: '(c) 2012'}), '<footer>(c) 2012</footer>\n');
         done();
       }
     });
