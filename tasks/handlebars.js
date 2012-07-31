@@ -12,7 +12,6 @@ module.exports = function(grunt) {
 
   grunt.registerMultiTask('handlebars', 'Precompile Handlebars template', function() {
     var self = this,
-        done = self.async(),
         templateDir = this.file.src,
         config = {
           "_": [
