@@ -21,5 +21,9 @@ module.exports = function(grunt) {
           output: this.file.dest
         };
     precomp(config);
+
+    if (this.errorCount) { return false; }
+
+    grunt.log.writeln('All templates precompiled in ' + this.file.dest);
   });
 };
